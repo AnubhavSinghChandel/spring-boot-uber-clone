@@ -17,6 +17,7 @@ This Uber Clone Application is a Spring Boot-based backend system that replicate
 - **Programming Language:** Java 21
 - **Build Tool:** Maven
 - **Database:** PostgreSQL with PostGIS for locational data
+- **Distance Calculation:** OSRM API and PostGIS for geospatial and routing data
 - **Security:** JWT for authentication and authorization (Access Token: 10 minutes, Refresh Token: 30 days)
 - **SMS Service:** Twilio for OTP-based messaging
 - **Email Service:** Gmail SMTP for email notifications
