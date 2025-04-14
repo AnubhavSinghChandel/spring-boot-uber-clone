@@ -29,7 +29,7 @@ This Uber Clone Application is a Spring Boot-based backend system that replicate
 ---
 
 ## API Documentation
-- **Swagger-UI URL:** [http://uber-clone-env-2.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html](http://uber-clone-env-2.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html)
+- **Swagger-UI URL:** [http://uber-clone-env-2.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html](http://taxigo.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html)
 
 ---
 
