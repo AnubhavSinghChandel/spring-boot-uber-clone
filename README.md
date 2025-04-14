@@ -1,5 +1,7 @@
 # Uber Clone Application
 
+Swagger API documentation: ahttp://uber-clone-env-2.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html
+
 ## Overview
 This Uber Clone Application is a Spring Boot-based backend system that replicates essential ride-hailing features:
 - **User Roles:** Rider, Driver and Admin.
@@ -23,6 +25,11 @@ This Uber Clone Application is a Spring Boot-based backend system that replicate
 - **Email Service:** Gmail SMTP for email notifications
 - **Testing Tools:** JUnit, Mockito, and Testcontainers for PostgreSQL with PostGIS
 - **Deployment:** PostgreSQL database deployed on AWS
+
+---
+
+## API Documentation
+- **Swagger-UI URL:** [http://uber-clone-env-2.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html](http://uber-clone-env-2.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html)
 
 ---
 
