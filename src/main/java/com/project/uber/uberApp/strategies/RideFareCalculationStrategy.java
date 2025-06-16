@@ -1,6 +1,6 @@
 package com.project.uber.uberApp.strategies;
 
-import com.project.uber.uberApp.entities.RideRequestEntity;
+import com.project.uber.uberApp.entities.RideRequest;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -11,5 +11,5 @@ public interface RideFareCalculationStrategy {
     // currently its is hard coded to 10
     double RIDE_FARE_MULTIPLIER = 10;
 
-    Double calculateFare(RideRequestEntity rideRequest);
+    Double calculateFare(RideRequest rideRequest);
 }

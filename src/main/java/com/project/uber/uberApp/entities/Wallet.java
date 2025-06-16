@@ -12,17 +12,17 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "wallet")
-public class WalletEntity {
+public class Wallet {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY, optional = false)
-    private UserEntity user;
+    private User user;
 
     private Double balance = 0.0;
 
     @OneToMany(mappedBy = "wallet", fetch = FetchType.LAZY)
-    private List<WalletTransactionEntity> transactions;
+    private List<WalletTransaction> transactions;
 }

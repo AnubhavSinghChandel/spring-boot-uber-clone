@@ -1,7 +1,6 @@
 package com.project.uber.uberApp.services.implementation;
 
-import com.project.uber.uberApp.dto.WalletTransactionDTO;
-import com.project.uber.uberApp.entities.WalletTransactionEntity;
+import com.project.uber.uberApp.entities.WalletTransaction;
 import com.project.uber.uberApp.repositories.WalletTransactionRepository;
 import com.project.uber.uberApp.services.WalletTransactionService;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +15,7 @@ public class WalletTransactionServiceImpl implements WalletTransactionService {
     private final ModelMapper modelMapper;
 
     @Override
-    public void createNewWalletTransaction(WalletTransactionEntity walletTransaction) {
+    public void createNewWalletTransaction(WalletTransaction walletTransaction) {
         walletTransactionRepo.save(walletTransaction);
     }
 }

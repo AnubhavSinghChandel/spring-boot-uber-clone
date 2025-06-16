@@ -3,7 +3,6 @@ package com.project.uber.uberApp.services.implementation;
 
 import com.project.uber.uberApp.dto.DriverDTO;
 import com.project.uber.uberApp.dto.DriverRideDTO;
-import com.project.uber.uberApp.dto.RideDTO;
 import com.project.uber.uberApp.dto.RiderDTO;
 import com.project.uber.uberApp.entities.*;
 import com.project.uber.uberApp.enums.RideRequestStatus;
@@ -35,28 +34,28 @@ public class DriverServiceImpl implements DriverService {
     @Override
     @Transactional
     public DriverRideDTO acceptRide(Long rideRequestId) {
-        RideRequestEntity rideRequest = rideRequestService.findRideRequestById(rideRequestId);
+        RideRequest rideRequest = rideRequestService.findRideRequestById(rideRequestId);
 
         if(!rideRequest.getRideRequestStatus().equals(RideRequestStatus.PENDING)){
             throw new RuntimeException("Ride request cannot be accepted, status is: "+rideRequest.getRideRequestStatus());
         }
 
-        DriverEntity currentDriver = getCurrentDriver();
+        Driver currentDriver = getCurrentDriver();
         if(!currentDriver.getAvailable()){
             throw new RuntimeException("Driver cannot accept ride due to unavailability");
         }
 
-        DriverEntity savedDriver = updateDriverAvailability(currentDriver, false);
+        Driver savedDriver = updateDriverAvailability(currentDriver, false);
 
 
-        RideEntity ride = rideService.createNewRide(rideRequest, savedDriver);
+        Ride ride = rideService.createNewRide(rideRequest, savedDriver);
         return modelMapper.map(ride, DriverRideDTO.class);
     }
 
     @Override
     public DriverRideDTO cancelRide(Long rideId) {
         // Driver can only cancel ride when the ride has been accepted but not yet started
-        RideEntity ride = rideService.getRideById(rideId);
+        Ride ride = rideService.getRideById(rideId);
 
 //        easiest way to check for ride Status and display failure of cancel
 
@@ -81,19 +80,19 @@ public class DriverServiceImpl implements DriverService {
             case RideStatus.ONGOING -> throw new RuntimeException("The ride with id "+rideId+" cannot be cancelled as it is ongoing!");
             case RideStatus.CANCELLED -> throw new RuntimeException("The ride with id "+rideId+" cannot be cancelled as it's already been canceled!");
         }
-        DriverEntity driver = getCurrentDriver();
+        Driver driver = getCurrentDriver();
         if(!driver.equals(ride.getDriver())){
             throw new RuntimeException("Driver cannot cancel ride, as the driver is not the one who accepted it.");
         }
-        RideEntity savedRide = rideService.updateRideStatus(ride, RideStatus.CANCELLED);
+        Ride savedRide = rideService.updateRideStatus(ride, RideStatus.CANCELLED);
         updateDriverAvailability(driver, true);
         return modelMapper.map(savedRide, DriverRideDTO.class);
     }
 
     @Override
     public DriverRideDTO startRide(Long rideId, String otp) {
-        RideEntity ride = rideService.getRideById(rideId);
-        DriverEntity driver = getCurrentDriver();
+        Ride ride = rideService.getRideById(rideId);
+        Driver driver = getCurrentDriver();
         if(!driver.equals(ride.getDriver())){
             throw new RuntimeException("Driver cannot start a ride, as they did not accept the ride earlier!");
         }
@@ -104,7 +103,7 @@ public class DriverServiceImpl implements DriverService {
             throw new RuntimeException("Invalid OTP");
         }
         ride.setStartTime(LocalDateTime.now());
-        RideEntity savedRide = rideService.updateRideStatus(ride, RideStatus.ONGOING);
+        Ride savedRide = rideService.updateRideStatus(ride, RideStatus.ONGOING);
 
         paymentService.createNewPayment(savedRide);
         ratingService.createNewRating(ride);
@@ -115,8 +114,8 @@ public class DriverServiceImpl implements DriverService {
     @Transactional
     public DriverRideDTO endRide(Long rideId) {
 
-        RideEntity ride = rideService.getRideById(rideId);
-        DriverEntity driver = getCurrentDriver();
+        Ride ride = rideService.getRideById(rideId);
+        Driver driver = getCurrentDriver();
         if(!driver.equals(ride.getDriver())){
             throw new RuntimeException("Driver cannot end the ride, as they did not start the ride!");
         }
@@ -125,7 +124,7 @@ public class DriverServiceImpl implements DriverService {
         }
 
         ride.setEndTime(LocalDateTime.now());
-        RideEntity savedRide = rideService.updateRideStatus(ride, RideStatus.ENDED);
+        Ride savedRide = rideService.updateRideStatus(ride, RideStatus.ENDED);
         updateDriverAvailability(driver, true);
 
         paymentService.processPayment(ride);
@@ -136,8 +135,8 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public RiderDTO rateRider(Long rideId, Integer rating) {
 
-        RideEntity ride = rideService.getRideById(rideId);
-        DriverEntity driver = getCurrentDriver();
+        Ride ride = rideService.getRideById(rideId);
+        Driver driver = getCurrentDriver();
 
         if(!driver.equals(ride.getDriver())){
             throw new RuntimeException("Driver cannot rate the rider, as they are not the driver assigned to the ride!");
@@ -152,7 +151,7 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public DriverDTO getMyProfile() {
-        DriverEntity driver = getCurrentDriver();
+        Driver driver = getCurrentDriver();
         return modelMapper.map(driver, DriverDTO.class);
     }
 
@@ -164,8 +163,8 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public DriverEntity getCurrentDriver() {
-        UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public Driver getCurrentDriver() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return driverRepo.findByUser(user)
                 .orElseThrow(()->new ResourceNotFoundException("User is not a driver! User id: "+user.getId()));
     }
@@ -180,13 +179,13 @@ public class DriverServiceImpl implements DriverService {
 //    }
 
     @Override
-    public DriverEntity updateDriverAvailability(DriverEntity driver, boolean flag) {
+    public Driver updateDriverAvailability(Driver driver, boolean flag) {
         driver.setAvailable(flag);
         return driverRepo.save(driver);
     }
 
     @Override
-    public DriverEntity createNewDriver(DriverEntity driver) {
+    public Driver createNewDriver(Driver driver) {
         return  driverRepo.save(driver);
     }
 }

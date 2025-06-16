@@ -15,11 +15,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(
         indexes = {
-                @Index(name = "idx_rideRequestEntity_rider", columnList = "rider_id")
+                @Index(name = "idx_rideRequest_rider", columnList = "rider_id")
         },
         name = "rideRequest"
 )
-public class RideRequestEntity {
+public class RideRequest {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -35,7 +35,7 @@ public class RideRequestEntity {
     private LocalDateTime requestedTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private RiderEntity rider;
+    private Rider rider;
 
     private Double distance;
 

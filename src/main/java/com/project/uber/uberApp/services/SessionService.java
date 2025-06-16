@@ -1,11 +1,10 @@
 package com.project.uber.uberApp.services;
 
-import com.project.uber.uberApp.entities.UserEntity;
-import org.springframework.stereotype.Service;
+import com.project.uber.uberApp.entities.User;
 
 public interface SessionService {
 
-    void createNewSession(UserEntity user, String refreshToken);
+    void createNewSession(User user, String refreshToken);
 
     void validateSession(String refreshToken);
 

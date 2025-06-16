@@ -1,11 +1,11 @@
 package com.project.uber.uberApp.strategies;
 
-import com.project.uber.uberApp.entities.DriverEntity;
-import com.project.uber.uberApp.entities.RideRequestEntity;
+import com.project.uber.uberApp.entities.Driver;
+import com.project.uber.uberApp.entities.RideRequest;
 
 import java.util.List;
 
 public interface DriverMatchingStrategy {
 
-    List<DriverEntity> findMatchingDriver(RideRequestEntity rideRequest);
+    List<Driver> findMatchingDriver(RideRequest rideRequest);
 }

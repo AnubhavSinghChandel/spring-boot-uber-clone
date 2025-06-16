@@ -1,6 +1,6 @@
 package com.project.uber.uberApp.services.implementation;
 
-import com.project.uber.uberApp.entities.RideRequestEntity;
+import com.project.uber.uberApp.entities.RideRequest;
 import com.project.uber.uberApp.exceptions.ResourceNotFoundException;
 import com.project.uber.uberApp.repositories.RideRequestRepository;
 import com.project.uber.uberApp.services.RideRequestService;
@@ -14,14 +14,14 @@ public class RideRequestServiceImpl implements RideRequestService {
     private final RideRequestRepository rideRequestRepo;
 
     @Override
-    public RideRequestEntity findRideRequestById(Long rideRequestId) {
+    public RideRequest findRideRequestById(Long rideRequestId) {
         return rideRequestRepo.findById(rideRequestId).orElseThrow(() -> new ResourceNotFoundException("Ride Request with id "+rideRequestId+" not found"));
     }
 
     @Override
-    public void update(RideRequestEntity rideRequestEntity) {
-        RideRequestEntity toSave = rideRequestRepo.findById(rideRequestEntity.getId())
-                .orElseThrow(()->new ResourceNotFoundException("Ride Request with id "+rideRequestEntity.getId()+" does not exists!"));
+    public void update(RideRequest rideRequest) {
+        RideRequest toSave = rideRequestRepo.findById(rideRequest.getId())
+                .orElseThrow(()->new ResourceNotFoundException("Ride Request with id "+ rideRequest.getId()+" does not exists!"));
         rideRequestRepo.save(toSave);
     }
 }

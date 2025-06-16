@@ -1,11 +1,9 @@
 package com.project.uber.uberApp.services.implementation;
 
-import com.project.uber.uberApp.dto.RideRequestDTO;
-import com.project.uber.uberApp.dto.RiderRideDTO;
-import com.project.uber.uberApp.entities.DriverEntity;
-import com.project.uber.uberApp.entities.RideEntity;
-import com.project.uber.uberApp.entities.RideRequestEntity;
-import com.project.uber.uberApp.entities.RiderEntity;
+import com.project.uber.uberApp.entities.Driver;
+import com.project.uber.uberApp.entities.Ride;
+import com.project.uber.uberApp.entities.RideRequest;
+import com.project.uber.uberApp.entities.Rider;
 import com.project.uber.uberApp.enums.RideRequestStatus;
 import com.project.uber.uberApp.enums.RideStatus;
 import com.project.uber.uberApp.exceptions.ResourceNotFoundException;
@@ -31,17 +29,17 @@ public class RideServiceImpl implements RideService {
     private final ModelMapper modelMapper;
 
     @Override
-    public RideEntity getRideById(Long rideId) {
+    public Ride getRideById(Long rideId) {
         return rideRepo.findById(rideId)
                 .orElseThrow(()-> new ResourceNotFoundException("Ride with id "+rideId+" does not exist!"));
     }
 
     @Override
-    public RideEntity createNewRide(RideRequestEntity rideRequestEntity, DriverEntity driver) {
+    public Ride createNewRide(RideRequest rideRequest, Driver driver) {
 
-        rideRequestEntity.setRideRequestStatus(RideRequestStatus.CONFIRMED);
+        rideRequest.setRideRequestStatus(RideRequestStatus.CONFIRMED);
         // convert few fields from rideRequest to ride
-        RideEntity ride = modelMapper.map(rideRequestEntity, RideEntity.class);
+        Ride ride = modelMapper.map(rideRequest, Ride.class);
         ride.setRideStatus(RideStatus.CONFIRMED);
         ride.setDriver(driver);
         ride.setOtp(generateRandomOTP());
@@ -49,23 +47,23 @@ public class RideServiceImpl implements RideService {
 
         notificationService.sendOtpToRider(ride, ride.getOtp());
 
-        rideRequestService.update(rideRequestEntity);
+        rideRequestService.update(rideRequest);
         return rideRepo.save(ride);
     }
 
     @Override
-    public RideEntity updateRideStatus(RideEntity ride, RideStatus rideStatus) {
+    public Ride updateRideStatus(Ride ride, RideStatus rideStatus) {
         ride.setRideStatus(rideStatus);
         return rideRepo.save(ride);
     }
 
     @Override
-    public Page<RideEntity> getAllRidesOfRider(RiderEntity rider, PageRequest pageRequest) {
+    public Page<Ride> getAllRidesOfRider(Rider rider, PageRequest pageRequest) {
         return rideRepo.findByRider(rider, pageRequest);
     }
 
     @Override
-    public Page<RideEntity> getAllRidesOfDriver(DriverEntity driver, PageRequest pageRequest) {
+    public Page<Ride> getAllRidesOfDriver(Driver driver, PageRequest pageRequest) {
         return rideRepo.findByDriver(driver, pageRequest);
     }
 

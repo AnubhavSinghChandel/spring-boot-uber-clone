@@ -1,7 +1,7 @@
 package com.project.uber.uberApp.repositories;
 
-import com.project.uber.uberApp.entities.DriverEntity;
-import com.project.uber.uberApp.entities.UserEntity;
+import com.project.uber.uberApp.entities.Driver;
+import com.project.uber.uberApp.entities.User;
 import org.locationtech.jts.geom.Point;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface DriverRepository extends JpaRepository<DriverEntity, Long> {
+public interface DriverRepository extends JpaRepository<Driver, Long> {
 
     // ST_Distance(point1, point2)
     // ST_DWithin(point1, 10000)
@@ -22,7 +22,7 @@ public interface DriverRepository extends JpaRepository<DriverEntity, Long> {
             "WHERE d.available = true AND ST_DWITHIN(d.current_location, :pickupLocation, 10000) "+
             "ORDER BY distance "+
             "LIMIT 10", nativeQuery = true)
-    List<DriverEntity> findTenNearestDrivers(Point pickupLocation);
+    List<Driver> findTenNearestDrivers(Point pickupLocation);
 
     @Query(
             value = "SELECT d.* " +
@@ -30,7 +30,7 @@ public interface DriverRepository extends JpaRepository<DriverEntity, Long> {
                     "WHERE d.available = true AND ST_DWITHIN(d.current_location, :pickupLocation, 10000) "+
                     "ORDER BY d.rating DESC "+
                     "LIMIT 10", nativeQuery = true)
-    List<DriverEntity> findTenNearbyTopRatedDrivers(Point pickupLocation);
+    List<Driver> findTenNearbyTopRatedDrivers(Point pickupLocation);
 
-    Optional<DriverEntity> findByUser(UserEntity user);
+    Optional<Driver> findByUser(User user);
 }

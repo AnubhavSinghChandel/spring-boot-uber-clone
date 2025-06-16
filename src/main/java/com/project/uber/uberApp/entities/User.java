@@ -8,7 +8,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -16,13 +15,13 @@ import java.util.stream.Collectors;
 @Table(
         name= "app_user",
         indexes = {
-                @Index(name = "idx_userEntity_email", columnList = "email")
+                @Index(name = "idx_user_email", columnList = "email")
         }
 )
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEntity implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

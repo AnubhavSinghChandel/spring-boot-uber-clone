@@ -1,15 +1,14 @@
 package com.project.uber.uberApp.services;
 
-import com.project.uber.uberApp.entities.PaymentEntity;
-import com.project.uber.uberApp.entities.RideEntity;
+import com.project.uber.uberApp.entities.Payment;
+import com.project.uber.uberApp.entities.Ride;
 import com.project.uber.uberApp.enums.PaymentStatus;
-import org.springframework.stereotype.Service;
 
 public interface PaymentService {
 
-    void processPayment(RideEntity ride);
+    void processPayment(Ride ride);
 
-    PaymentEntity createNewPayment(RideEntity ride);
+    Payment createNewPayment(Ride ride);
 
-    void updatePaymentStatus(PaymentEntity payment, PaymentStatus paymentStatus);
+    void updatePaymentStatus(Payment payment, PaymentStatus paymentStatus);
 }

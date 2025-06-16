@@ -9,7 +9,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "rider")
-public class RiderEntity {
+public class Rider {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -18,5 +18,5 @@ public class RiderEntity {
 
     @OneToOne
     @JoinColumn(name="user_id")
-    private UserEntity user;
+    private User user;
 }

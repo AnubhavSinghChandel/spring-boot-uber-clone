@@ -1,7 +1,7 @@
 package com.project.uber.uberApp.services.implementation;
 
-import com.project.uber.uberApp.entities.SessionEntity;
-import com.project.uber.uberApp.entities.UserEntity;
+import com.project.uber.uberApp.entities.Session;
+import com.project.uber.uberApp.entities.User;
 import com.project.uber.uberApp.exceptions.ResourceNotFoundException;
 import com.project.uber.uberApp.repositories.SessionRepository;
 import com.project.uber.uberApp.services.SessionService;
@@ -21,17 +21,17 @@ public class SessionServiceImpl implements SessionService {
     private final int SESSION_LIMIT = 1;
 
     @Override
-    public void createNewSession(UserEntity user, String refreshToken) {
+    public void createNewSession(User user, String refreshToken) {
 
-        List<SessionEntity> sessions = sessionRepo.findByUser(user).orElseThrow(()->new ResourceNotFoundException("User "+user.getId()+" has no active session!"));
+        List<Session> sessions = sessionRepo.findByUser(user).orElseThrow(()->new ResourceNotFoundException("User "+user.getId()+" has no active session!"));
         if(sessions.size()==SESSION_LIMIT){
             sessions.sort(Comparator.comparing(session -> session.getLastUsedAt()));
 
-            SessionEntity lastUsedSession = sessions.getFirst();
+            Session lastUsedSession = sessions.getFirst();
             sessionRepo.delete(lastUsedSession);
         }
 
-        SessionEntity newSession = SessionEntity.builder()
+        Session newSession = Session.builder()
                 .user(user)
                 .refreshToken(refreshToken)
                 .build();
@@ -41,7 +41,7 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public void validateSession(String refreshToken){
-        SessionEntity session = sessionRepo.findByRefreshToken(refreshToken)
+        Session session = sessionRepo.findByRefreshToken(refreshToken)
                 .orElseThrow(()->new SessionAuthenticationException("Session associated with refreshToken does not exist!"));
 
         session.setLastUsedAt(LocalDateTime.now());
@@ -50,7 +50,7 @@ public class SessionServiceImpl implements SessionService {
 
     @Override
     public void deleteSession(String refreshToken) {
-        SessionEntity session = sessionRepo.findByRefreshToken(refreshToken)
+        Session session = sessionRepo.findByRefreshToken(refreshToken)
                 .orElseThrow(()->new SessionAuthenticationException("Session associated with refreshToken does not exist!"));
 
         sessionRepo.delete(session);

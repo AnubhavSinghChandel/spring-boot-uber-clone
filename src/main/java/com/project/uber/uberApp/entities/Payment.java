@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @Table(name = "payment")
-public class PaymentEntity {
+public class Payment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,7 +27,7 @@ public class PaymentEntity {
     private PaymentMethod paymentMethod;
 
     @OneToOne(fetch = FetchType.LAZY)
-    private RideEntity ride;
+    private Ride ride;
 
     private Double amount;
 

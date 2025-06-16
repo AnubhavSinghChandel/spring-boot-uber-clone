@@ -1,12 +1,10 @@
 package com.project.uber.uberApp.strategies.implementations.payment;
 
-import com.project.uber.uberApp.entities.DriverEntity;
-import com.project.uber.uberApp.entities.PaymentEntity;
-import com.project.uber.uberApp.entities.WalletEntity;
+import com.project.uber.uberApp.entities.Driver;
+import com.project.uber.uberApp.entities.Payment;
 import com.project.uber.uberApp.enums.PaymentStatus;
 import com.project.uber.uberApp.enums.TransactionMethod;
 import com.project.uber.uberApp.repositories.PaymentRepository;
-import com.project.uber.uberApp.services.PaymentService;
 import com.project.uber.uberApp.services.WalletService;
 import com.project.uber.uberApp.strategies.PaymentStrategy;
 import jakarta.transaction.Transactional;
@@ -25,14 +23,14 @@ public class CashPaymentStrategy implements PaymentStrategy {
 
     @Override
     @Transactional
-    public void processPayment(PaymentEntity paymentEntity) {
-        DriverEntity driver = paymentEntity.getRide().getDriver();
+    public void processPayment(Payment payment) {
+        Driver driver = payment.getRide().getDriver();
 
-        double platformCommission = paymentEntity.getAmount()*PLATFORM_COMMISSION;
+        double platformCommission = payment.getAmount()*PLATFORM_COMMISSION;
 
-        walletService.deductMoneyFromWallet(driver.getUser(), platformCommission, null, paymentEntity.getRide(), TransactionMethod.RIDE);
+        walletService.deductMoneyFromWallet(driver.getUser(), platformCommission, null, payment.getRide(), TransactionMethod.RIDE);
 
-        paymentEntity.setPaymentStatus(PaymentStatus.CONFIRMED);
-        paymentRepo.save(paymentEntity);
+        payment.setPaymentStatus(PaymentStatus.CONFIRMED);
+        paymentRepo.save(payment);
     }
 }

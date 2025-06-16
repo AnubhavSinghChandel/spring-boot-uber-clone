@@ -2,16 +2,13 @@ package com.project.uber.uberApp.services;
 
 import com.project.uber.uberApp.dto.DriverDTO;
 import com.project.uber.uberApp.dto.RiderDTO;
-import com.project.uber.uberApp.entities.DriverEntity;
-import com.project.uber.uberApp.entities.RideEntity;
-import com.project.uber.uberApp.entities.RiderEntity;
-import org.springframework.stereotype.Service;
+import com.project.uber.uberApp.entities.Ride;
 
 public interface RatingService {
 
-    DriverDTO rateDriver(RideEntity ride, Integer rating);
+    DriverDTO rateDriver(Ride ride, Integer rating);
 
-    RiderDTO rateRider(RideEntity ride, Integer rating);
+    RiderDTO rateRider(Ride ride, Integer rating);
 
-    void createNewRating(RideEntity ride);
+    void createNewRating(Ride ride);
 }

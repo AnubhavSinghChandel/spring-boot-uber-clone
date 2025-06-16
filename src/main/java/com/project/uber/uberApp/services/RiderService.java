@@ -1,8 +1,8 @@
 package com.project.uber.uberApp.services;
 
 import com.project.uber.uberApp.dto.*;
-import com.project.uber.uberApp.entities.RiderEntity;
-import com.project.uber.uberApp.entities.UserEntity;
+import com.project.uber.uberApp.entities.Rider;
+import com.project.uber.uberApp.entities.User;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -18,9 +18,9 @@ public interface RiderService {
 
     Page<RiderRideDTO> getAllRides(PageRequest pageRequest);
 
-    RiderEntity createNewRider(UserEntity userEntity);
+    Rider createNewRider(User user);
 
-    RiderEntity getCurrentRider();
+    Rider getCurrentRider();
 
 //    RiderEntity updateRiderRating(RiderEntity rider, Integer rating);
 }

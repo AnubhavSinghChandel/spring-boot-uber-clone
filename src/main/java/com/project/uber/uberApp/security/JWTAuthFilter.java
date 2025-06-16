@@ -1,6 +1,6 @@
 package com.project.uber.uberApp.security;
 
-import com.project.uber.uberApp.entities.UserEntity;
+import com.project.uber.uberApp.entities.User;
 import com.project.uber.uberApp.services.implementation.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -49,7 +49,7 @@ public class JWTAuthFilter extends OncePerRequestFilter {
             Long userId = jwtService.getUserIdFromToken(token);
 
             if(userId!=null && SecurityContextHolder.getContext().getAuthentication() == null){
-                UserEntity user = userService.getUserById(userId);
+                User user = userService.getUserById(userId);
                 UsernamePasswordAuthenticationToken authToken =
                         new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities());
 

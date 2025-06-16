@@ -3,7 +3,7 @@ INSERT INTO app_user (name, email, password, phone) VALUES
 ('Test Driver', 'testDriver@gmail.com', '$2a$10$examplePasswordHash2', '+911234567890');
 
 
-INSERT INTO user_entity_roles (user_entity_id, roles) VALUES
+INSERT INTO user_roles (user_id, roles) VALUES
 (1, 'RIDER'),
 (2, 'RIDER'),
 (2, 'DRIVER');

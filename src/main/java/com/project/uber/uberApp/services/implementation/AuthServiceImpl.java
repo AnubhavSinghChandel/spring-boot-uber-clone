@@ -1,11 +1,10 @@
 package com.project.uber.uberApp.services.implementation;
 
 import com.project.uber.uberApp.dto.DriverDTO;
-import com.project.uber.uberApp.dto.LoginResponseDTO;
 import com.project.uber.uberApp.dto.SignupDTO;
 import com.project.uber.uberApp.dto.UserDTO;
-import com.project.uber.uberApp.entities.DriverEntity;
-import com.project.uber.uberApp.entities.UserEntity;
+import com.project.uber.uberApp.entities.Driver;
+import com.project.uber.uberApp.entities.User;
 import com.project.uber.uberApp.enums.Roles;
 import com.project.uber.uberApp.exceptions.ResourceNotFoundException;
 import com.project.uber.uberApp.exceptions.RuntimeConflictException;
@@ -15,14 +14,12 @@ import com.project.uber.uberApp.services.*;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.json.Cookie;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -58,7 +55,7 @@ public class AuthServiceImpl implements AuthService {
 
         log.info("Authentication successful for email: {}", email);
 
-        UserEntity user = (UserEntity) auth.getPrincipal();
+        User user = (User) auth.getPrincipal();
 
         log.debug("Authenticated user: {}", user.getUsername());
 
@@ -90,7 +87,7 @@ public class AuthServiceImpl implements AuthService {
         // By default, everyone that signs up to the system will be considered as a rider,
         // to become a driver admins gve the user permissions handles in onboardDriver
         try{
-            Optional<UserEntity> user = userRepo.findByEmail(signupDto.getEmail());
+            Optional<User> user = userRepo.findByEmail(signupDto.getEmail());
             if(user.isPresent()){
 
                 log.warn("Signup failed: User with email {} already exists.", signupDto.getEmail());
@@ -100,14 +97,14 @@ public class AuthServiceImpl implements AuthService {
 
             log.info("User with email {} not found. Proceeding with signup.", signupDto.getEmail());
 
-            UserEntity userEntity = modelMapper.map(signupDto, UserEntity.class);
+            User userEntity = modelMapper.map(signupDto, User.class);
             log.debug("Mapped SignupDTO to UserEntity: {}", userEntity);
 
             userEntity.setRoles(Set.of(Roles.RIDER));
             userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
             log.info("Default roles assigned and password encoded for user: {}", userEntity.getUsername());
 
-            UserEntity savedUser = userRepo.save(userEntity);
+            User savedUser = userRepo.save(userEntity);
             log.info("User {} successfully saved to repository.", savedUser.getUsername());
 
             // create Rider Profile
@@ -128,11 +125,11 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public DriverDTO onboardNewDriver(Long userId, String vehicleId) {
-        UserEntity user = userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User not found with id "+userId));
+        User user = userRepo.findById(userId).orElseThrow(()->new ResourceNotFoundException("User not found with id "+userId));
         if(user.getRoles().contains(DRIVER)){
             throw new RuntimeConflictException("User with id "+userId+" is already a driver");
         }
-        DriverEntity newDriver = DriverEntity.builder()
+        Driver newDriver = Driver.builder()
                 .rating(0.0)
                 .available(true)
                 .vehicleId(vehicleId)
@@ -143,7 +140,7 @@ public class AuthServiceImpl implements AuthService {
         user.getRoles().remove(RIDER);
         userRepo.save(user);
 
-        DriverEntity savedDriver = driverService.createNewDriver(newDriver);
+        Driver savedDriver = driverService.createNewDriver(newDriver);
         return modelMapper.map(savedDriver, DriverDTO.class);
     }
 
@@ -151,7 +148,7 @@ public class AuthServiceImpl implements AuthService {
     public String refreshToken(String refreshToken) {
         Long userId = jwtService.getUserIdFromToken(refreshToken);
         sessionService.validateSession(refreshToken);
-        UserEntity user = userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User with id "+userId+" does not exist!"));
+        User user = userRepo.findById(userId).orElseThrow(()-> new ResourceNotFoundException("User with id "+userId+" does not exist!"));
         return jwtService.generateRefreshToken(user);
     }
 }

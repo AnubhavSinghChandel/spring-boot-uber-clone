@@ -1,6 +1,6 @@
 package com.project.uber.uberApp.services.implementation;
 
-import com.project.uber.uberApp.entities.UserEntity;
+import com.project.uber.uberApp.entities.User;
 import com.project.uber.uberApp.exceptions.ResourceNotFoundException;
 import com.project.uber.uberApp.repositories.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +21,7 @@ public final class UserService implements UserDetailsService {
                 .orElseThrow(() -> new ResourceNotFoundException("User with email: " + email + " does not exist!"));
     }
 
-    public UserEntity getUserById(Long id){
+    public User getUserById(Long id){
         return userRepo.findById(id)
                 .orElseThrow(()->new ResourceNotFoundException("User with id: "+id+" does not exist!"));
     }

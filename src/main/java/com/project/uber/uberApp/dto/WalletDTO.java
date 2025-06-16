@@ -1,6 +1,5 @@
 package com.project.uber.uberApp.dto;
 
-import com.project.uber.uberApp.entities.UserEntity;
 import lombok.Data;
 
 import java.util.List;

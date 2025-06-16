@@ -2,7 +2,7 @@ package com.project.uber.uberApp.services.implementation;
 
 import com.project.uber.uberApp.dto.SignupDTO;
 import com.project.uber.uberApp.dto.UserDTO;
-import com.project.uber.uberApp.entities.UserEntity;
+import com.project.uber.uberApp.entities.User;
 import com.project.uber.uberApp.enums.Roles;
 import com.project.uber.uberApp.repositories.UserRepository;
 import com.project.uber.uberApp.security.JWTService;
@@ -63,12 +63,12 @@ class AuthServiceImplTest {
     @InjectMocks
     private AuthServiceImpl authService;
 
-    private UserEntity user;
+    private User user;
 
     @BeforeEach
     void setUp(){
 
-        user = new UserEntity();
+        user = new User();
         user.setId(1L);
         user.setEmail("test@example.com");
         user.setRoles(Set.of(Roles.RIDER));
@@ -84,8 +84,8 @@ class AuthServiceImplTest {
         Authentication auth = mock(Authentication.class);
         when(authManager.authenticate(any(Authentication.class))).thenReturn(auth);
         when(auth.getPrincipal()).thenReturn(user);
-        when(jwtService.generateAccessToken(any(UserEntity.class))).thenReturn("accessToken");
-        when(jwtService.generateRefreshToken(any(UserEntity.class))).thenReturn("refreshToken");
+        when(jwtService.generateAccessToken(any(User.class))).thenReturn("accessToken");
+        when(jwtService.generateRefreshToken(any(User.class))).thenReturn("refreshToken");
 
 //        act
 
@@ -129,7 +129,7 @@ class AuthServiceImplTest {
 //        arrange
 
         when(userRepo.findByEmail(anyString())).thenReturn(Optional.empty());
-        when(userRepo.save(any(UserEntity.class))).thenReturn(user);
+        when(userRepo.save(any(User.class))).thenReturn(user);
 
 //        act
         SignupDTO signupDTO = new SignupDTO();

@@ -5,27 +5,27 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.CreationTimestamp;
-
-import java.time.LocalDateTime;
 
 @Entity
+@Table(
+        indexes = {
+                @Index(name = "idx_rating_ride", columnList = "ride_id")
+        },
+        name = "rating"
+)
 @Data
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
-@Table(name = "session")
-public class SessionEntity {
+public class Rating {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String refreshToken;
+    @OneToOne
+    private Ride ride;
 
-    @CreationTimestamp
-    private LocalDateTime lastUsedAt;
-
-    @ManyToOne
-    private UserEntity user;
+    private Integer driverRating;
+    private Integer riderRating;
 }

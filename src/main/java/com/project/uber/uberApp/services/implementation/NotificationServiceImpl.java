@@ -1,11 +1,9 @@
 package com.project.uber.uberApp.services.implementation;
 
-import com.project.uber.uberApp.dto.RiderRideDTO;
-import com.project.uber.uberApp.entities.RideEntity;
+import com.project.uber.uberApp.entities.Ride;
 import com.project.uber.uberApp.services.NotificationService;
 import com.twilio.Twilio;
 import com.twilio.rest.api.v2010.account.Message;
-import com.twilio.rest.verify.v2.service.Verification;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -24,7 +22,7 @@ public class NotificationServiceImpl implements NotificationService {
     private String TWILIO_PHONE_NO;
 
     @Override
-    public void sendOtpToRider(RideEntity ride, String otp) {
+    public void sendOtpToRider(Ride ride, String otp) {
         Twilio.init(TWILIO_ACCOUNT_SID, TWILIO_AUTH_TOKEN);
         Message message = Message.creator(
                 new com.twilio.type.PhoneNumber(ride.getRider().getUser().getPhone()),

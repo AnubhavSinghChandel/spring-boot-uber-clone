@@ -1,7 +1,6 @@
 package com.project.uber.uberApp.entities;
 
 import jakarta.persistence.*;
-import jdk.jfr.DataAmount;
 import lombok.*;
 import org.locationtech.jts.geom.Point;
 
@@ -12,11 +11,11 @@ import org.locationtech.jts.geom.Point;
 @AllArgsConstructor
 @Table(
         indexes = {
-                @Index(name = "idx_driverEntity_vehicleId", columnList = "vehicleId")
+                @Index(name = "idx_driver_vehicleId", columnList = "vehicleId")
         },
         name = "driver"
 )
-public class DriverEntity {
+public class Driver {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +23,7 @@ public class DriverEntity {
 
     @OneToOne
     @JoinColumn(name="user_id")
-    private UserEntity user;
+    private User user;
 
     private Double rating;
 

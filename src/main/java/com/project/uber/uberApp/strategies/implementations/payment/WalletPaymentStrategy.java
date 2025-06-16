@@ -1,12 +1,11 @@
 package com.project.uber.uberApp.strategies.implementations.payment;
 
-import com.project.uber.uberApp.entities.DriverEntity;
-import com.project.uber.uberApp.entities.PaymentEntity;
-import com.project.uber.uberApp.entities.RiderEntity;
+import com.project.uber.uberApp.entities.Driver;
+import com.project.uber.uberApp.entities.Payment;
+import com.project.uber.uberApp.entities.Rider;
 import com.project.uber.uberApp.enums.PaymentStatus;
 import com.project.uber.uberApp.enums.TransactionMethod;
 import com.project.uber.uberApp.repositories.PaymentRepository;
-import com.project.uber.uberApp.services.PaymentService;
 import com.project.uber.uberApp.services.WalletService;
 import com.project.uber.uberApp.strategies.PaymentStrategy;
 import jakarta.transaction.Transactional;
@@ -27,17 +26,17 @@ public class WalletPaymentStrategy implements PaymentStrategy {
 
     @Override
     @Transactional
-    public void processPayment(PaymentEntity paymentEntity) {
-        DriverEntity driver = paymentEntity.getRide().getDriver();
-        RiderEntity rider = paymentEntity.getRide().getRider();
+    public void processPayment(Payment payment) {
+        Driver driver = payment.getRide().getDriver();
+        Rider rider = payment.getRide().getRider();
 
-        walletService.deductMoneyFromWallet(rider.getUser(), paymentEntity.getAmount(), null, paymentEntity.getRide(), TransactionMethod.RIDE);
+        walletService.deductMoneyFromWallet(rider.getUser(), payment.getAmount(), null, payment.getRide(), TransactionMethod.RIDE);
 
-        double driversCut = paymentEntity.getAmount() * (1 - PLATFORM_COMMISSION);
+        double driversCut = payment.getAmount() * (1 - PLATFORM_COMMISSION);
 
-        walletService.addMoneyToWallet(driver.getUser(), driversCut, null, paymentEntity.getRide(), TransactionMethod.RIDE);
+        walletService.addMoneyToWallet(driver.getUser(), driversCut, null, payment.getRide(), TransactionMethod.RIDE);
 
-        paymentEntity.setPaymentStatus(PaymentStatus.CONFIRMED);
-        paymentRepo.save(paymentEntity);
+        payment.setPaymentStatus(PaymentStatus.CONFIRMED);
+        paymentRepo.save(payment);
     }
 }

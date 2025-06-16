@@ -1,6 +1,6 @@
 package com.project.uber.uberApp.strategies.implementations.rideFare;
 
-import com.project.uber.uberApp.entities.RideRequestEntity;
+import com.project.uber.uberApp.entities.RideRequest;
 import com.project.uber.uberApp.services.DistanceService;
 import com.project.uber.uberApp.strategies.RideFareCalculationStrategy;
 import lombok.RequiredArgsConstructor;
@@ -13,7 +13,7 @@ public class RideFareDefaultFareCalculationStrategy implements RideFareCalculati
     private final DistanceService distanceService;
 
     @Override
-    public Double calculateFare(RideRequestEntity rideRequest) {
+    public Double calculateFare(RideRequest rideRequest) {
 
         double distance = distanceService.calculateDistance(rideRequest.getPickupLocation(), rideRequest.getDropOffLocation());
 

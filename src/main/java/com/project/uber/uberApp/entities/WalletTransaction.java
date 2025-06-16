@@ -18,12 +18,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(
         indexes = {
-                @Index(name = "idx_walletTransactionEntity_wallet", columnList = "wallet_id"),
-                @Index(name = "idx_walletTransactionEntity_ride", columnList = "ride_id")
+                @Index(name = "idx_walletTransaction_wallet", columnList = "wallet_id"),
+                @Index(name = "idx_walletTransaction_ride", columnList = "ride_id")
         },
         name = "walletTransaction"
 )
-public class WalletTransactionEntity {
+public class WalletTransaction {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -38,12 +38,12 @@ public class WalletTransactionEntity {
     private TransactionMethod transactionMethod;
 
     @ManyToOne
-    private RideEntity ride;
+    private Ride ride;
 
     private String transactionId;
 
     @ManyToOne
-    private WalletEntity wallet;
+    private Wallet wallet;
 
     @CreationTimestamp
     private LocalDateTime timeStamp;

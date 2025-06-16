@@ -40,28 +40,28 @@ public class RiderServiceImpl implements RiderService {
     @Transactional
     public RideRequestDTO requestRide(RideRequestDTO rideRequestDTO) {
 
-        RiderEntity rider = getCurrentRider();
+        Rider rider = getCurrentRider();
 
         // convert provided rideRequestDTO to rideRequestEntity using model mapper
-        RideRequestEntity rideRequestEntity = modelMapper.map(rideRequestDTO, RideRequestEntity.class);
+        RideRequest rideRequest = modelMapper.map(rideRequestDTO, RideRequest.class);
 
         // set rideStatus to pending
-        rideRequestEntity.setRideRequestStatus(RideRequestStatus.PENDING);
-        rideRequestEntity.setRider(rider);
+        rideRequest.setRideRequestStatus(RideRequestStatus.PENDING);
+        rideRequest.setRider(rider);
         Point pickupLocation = modelMapper.map(rideRequestDTO.getPickupLocation(), Point.class);
         Point dropOffLocation = modelMapper.map(rideRequestDTO.getDropOffLocation(), Point.class);
-        rideRequestEntity.setDistance(distanceService.calculateDistance(pickupLocation, dropOffLocation));
+        rideRequest.setDistance(distanceService.calculateDistance(pickupLocation, dropOffLocation));
 
         // calculate fare related to the ride request
-        Double fare = rideStrategyManager.rideFareCalculationStrategy().calculateFare(rideRequestEntity);
-        rideRequestEntity.setFare(fare);
+        Double fare = rideStrategyManager.rideFareCalculationStrategy().calculateFare(rideRequest);
+        rideRequest.setFare(fare);
 
 
         // saved ride request to db
-        RideRequestEntity savedRideRequest = rideRequestRepo.save(rideRequestEntity);
+        RideRequest savedRideRequest = rideRequestRepo.save(rideRequest);
 
         // match driver for the ride
-        List<DriverEntity> drivers = rideStrategyManager.driverMatchingStrategy(rider.getRating()).findMatchingDriver(rideRequestEntity);
+        List<Driver> drivers = rideStrategyManager.driverMatchingStrategy(rider.getRating()).findMatchingDriver(rideRequest);
 //        log.info(driver.toString());
 
         String[] emails = (String[]) drivers.stream().map(driver -> driver.getUser().getEmail()).toArray();
@@ -75,20 +75,20 @@ public class RiderServiceImpl implements RiderService {
 
     @Override
     public RiderRideDTO cancelRide(Long rideId) {
-        RiderEntity rider = getCurrentRider();
-        RideEntity ride = rideService.getRideById(rideId);
+        Rider rider = getCurrentRider();
+        Ride ride = rideService.getRideById(rideId);
         if(!rider.equals(ride.getRider())){
             throw new RuntimeException("Rider does not own this ride!");
         }
-        RideEntity savedRide = rideService.updateRideStatus(ride, RideStatus.CANCELLED);
+        Ride savedRide = rideService.updateRideStatus(ride, RideStatus.CANCELLED);
         driverService.updateDriverAvailability(ride.getDriver(), true);
         return modelMapper.map(savedRide, RiderRideDTO.class);
     }
 
     @Override
     public DriverDTO rateDriver(Long rideId, Integer rating) {
-        RideEntity ride = rideService.getRideById(rideId);
-        RiderEntity rider = getCurrentRider();
+        Ride ride = rideService.getRideById(rideId);
+        Rider rider = getCurrentRider();
 
         if(!rider.equals(ride.getRider())){
             throw new RuntimeException("Rider cannot rate the driver, as the ride with id "+rideId+" is not associated to them!");
@@ -103,7 +103,7 @@ public class RiderServiceImpl implements RiderService {
 
     @Override
     public RiderDTO getMyProfile() {
-        RiderEntity rider = getCurrentRider();
+        Rider rider = getCurrentRider();
         return modelMapper.map(rider, RiderDTO.class);
     }
 
@@ -115,9 +115,9 @@ public class RiderServiceImpl implements RiderService {
     }
 
     @Override
-    public RiderEntity createNewRider(UserEntity userEntity) {
-        RiderEntity rider = RiderEntity.builder()
-                .user(userEntity)
+    public Rider createNewRider(User user) {
+        Rider rider = Rider.builder()
+                .user(user)
                 .rating(0.0)
                 .build();
 
@@ -125,8 +125,8 @@ public class RiderServiceImpl implements RiderService {
     }
 
     @Override
-    public RiderEntity getCurrentRider() {
-        UserEntity user = (UserEntity) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public Rider getCurrentRider() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         return riderRepo.findByUser(user)
                 .orElseThrow(()->new ResourceNotFoundException("User is not a rider! User Id: "+user.getId()));
     }
