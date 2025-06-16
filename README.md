@@ -1,4 +1,4 @@
-# Uber Clone Application
+# TaxiGo
 
 Swagger API documentation: ahttp://uber-clone-env-2.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html
 
