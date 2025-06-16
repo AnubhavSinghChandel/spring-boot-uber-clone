@@ -1,6 +1,5 @@
 # TaxiGo
 
-Swagger API documentation: ahttp://uber-clone-env-2.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html
 
 ## Overview
 This Application is a Spring Boot-based backend system that replicates essential ride-hailing features:
