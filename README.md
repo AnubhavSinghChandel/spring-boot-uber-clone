@@ -1,9 +1,9 @@
-# Uber Clone Application
+# TaxiGo
 
 Swagger API documentation: ahttp://uber-clone-env-2.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html
 
 ## Overview
-This Uber Clone Application is a Spring Boot-based backend system that replicates essential ride-hailing features:
+This Application is a Spring Boot-based backend system that replicates essential ride-hailing features:
 - **User Roles:** Rider, Driver and Admin.
 - **Admin Functionalities:** Onboard new drivers.
 - **Rider Functionalities:** Request rides, Cancel ride, make payments, and rate drivers.
