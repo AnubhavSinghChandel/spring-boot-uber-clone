@@ -25,12 +25,11 @@ This Application is a Spring Boot-based backend system that replicates essential
 - **Testing Tools:** JUnit, Mockito, and Testcontainers for PostgreSQL with PostGIS
 - **Deployment:** PostgreSQL database deployed on AWS
 
-<!---
+---
 
 ## API Documentation
 - **Swagger-UI URL:** [http://taxigo-spring-boot-env.eba-m3shttpe.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html]
 
--->
 ---
 
 ## Prerequisites
