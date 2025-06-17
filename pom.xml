@@ -8,10 +8,10 @@
 		<version>3.3.1</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.project.uberClone</groupId>
-	<artifactId>uberClone</artifactId>
+	<groupId>com.project.taxiGo</groupId>
+	<artifactId>taxiGo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>uberClone</name>
+	<name>taxiGo</name>
 	<description>Uber Clone Project in Spring Boot</description>
 	<url/>
 	<licenses>
