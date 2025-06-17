@@ -1,6 +1,5 @@
 # TaxiGo
 
-Swagger API documentation: ahttp://uber-clone-env-2.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html
 
 ## Overview
 This Application is a Spring Boot-based backend system that replicates essential ride-hailing features:
@@ -26,11 +25,12 @@ This Application is a Spring Boot-based backend system that replicates essential
 - **Testing Tools:** JUnit, Mockito, and Testcontainers for PostgreSQL with PostGIS
 - **Deployment:** PostgreSQL database deployed on AWS
 
----
+<!---
 
 ## API Documentation
 - **Swagger-UI URL:** [http://uber-clone-env-2.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html](http://taxigo.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html)
 
+-->
 ---
 
 ## Prerequisites
