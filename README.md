@@ -28,7 +28,7 @@ This Application is a Spring Boot-based backend system that replicates essential
 <!---
 
 ## API Documentation
-- **Swagger-UI URL:** [http://uber-clone-env-2.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html](http://taxigo.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html)
+- **Swagger-UI URL:** [http://taxigo-spring-boot-env.eba-m3shttpe.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html]
 
 -->
 ---
