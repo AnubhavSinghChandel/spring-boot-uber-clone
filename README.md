@@ -28,7 +28,9 @@ This Application is a Spring Boot-based backend system that replicates essential
 ---
 
 ## API Documentation
-- **Swagger-UI URL:** [http://taxigo-spring-boot-env.eba-m3shttpe.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html]
+- **Swagger-UI URL:** [http://taxigo-spring-boot-env.eba-m3shttpe.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html] \
+**`On mobile device for some reason github redirects with https`**
+### This is an http deployment (I don't have my own domain, yet.)
 
 ---
 
