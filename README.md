@@ -1,5 +1,11 @@
 # TaxiGo
 
+## API Documentation
+- **Swagger-UI URL:** [http://taxigo-spring-boot-env.eba-m3shttpe.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html] \
+**`On mobile device for some reason github redirects with https`**
+### This is an http deployment (I don't have my own domain, yet.)
+
+---
 
 ## Overview
 This Application is a Spring Boot-based backend system that replicates essential ride-hailing features:
@@ -24,13 +30,6 @@ This Application is a Spring Boot-based backend system that replicates essential
 - **Email Service:** Gmail SMTP for email notifications
 - **Testing Tools:** JUnit, Mockito, and Testcontainers for PostgreSQL with PostGIS
 - **Deployment:** PostgreSQL database deployed on AWS
-
----
-
-## API Documentation
-- **Swagger-UI URL:** [http://taxigo-spring-boot-env.eba-m3shttpe.ap-south-1.elasticbeanstalk.com/swagger-ui/index.html] \
-**`On mobile device for some reason github redirects with https`**
-### This is an http deployment (I don't have my own domain, yet.)
 
 ---
 
